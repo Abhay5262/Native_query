@@ -1,0 +1,118 @@
+package com.student.SevicrImpl;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.stereotype.Component;
+
+import com.student.MockData.Student;
+import com.student.services.Services;
+
+@Component
+public class StudentImpl implements Services {
+
+	private static List<Student> studentList = new ArrayList<>();
+
+	static {
+
+		Student s1 = new Student(1l,"100", "Prince", "Ahmedabad", "Male");
+		Student s2 = new Student(2l,"101", "Abhay", "Rajkot", "Male");
+		Student s3 = new Student(3l,"102", "Kevan", "Rajkot", "Male");
+		Student s4 = new Student(4l,"103", "Dhaval", "jamnagar", "Male");
+		Student s5 = new Student(5l,"104", "Krutik", "Jetpur", "Male");
+		studentList.add(s1);
+		studentList.add(s2);
+		studentList.add(s3);
+		studentList.add(s4);
+		studentList.add(s5);
+
+	}
+
+
+//	public Student getStudentData(String id) {
+//
+//		for (Student student : studentList) {
+//			if (student.getStudentRollNo().equals(id)) {
+//				return student;
+//			}
+//		}
+//		return null;
+//	}
+	public Student getStudentData(String id) {
+		 		Student st=(Student) studentList.stream()
+		 				.filter(student->id.equals(student.getStudentRollNo()))
+		 				.findAny()
+		 				.orElse(null);
+		return st ;
+		
+	}
+
+	public List<Student> getAllStudentData() {
+		return studentList;
+	}
+
+	public String deleteStudentById(String id) {
+	
+	 		Student st1=(Student) studentList.stream()
+	 				.filter(student->id.equals(student.getStudentRollNo()))
+	 				.findAny()
+	 				.orElse(null);
+	 		studentList.remove(st1);
+	return "stdent deleted" ;
+//		boolean check = false;
+//
+//		for (Student student : studentList) {
+//			if (student.getStudentRollNo().equals(id)) {
+//				check = true;
+//				studentList.remove(student);
+//			}
+//		}
+//
+//		if (check == false) {
+//			return "Student id not found";
+//		} else {
+//			return "student delete";
+//		}
+
+	}
+
+	public String deleteAllStudents() {
+		studentList.clear();
+		return "All Data Deleted";
+	}
+
+	public String saveStudent(Student student) {
+		studentList.add(student);
+		return "Student saved";
+	}
+
+	public String updateStudent(String studentRoll,Student studentNew) {
+//		boolean check = false;
+//		for (Student studentOld : studentList) {
+//			if (studentOld.getStudentRollNo().equals(studentNew.getStudentRollNo())) {
+//				check = true;
+//				studentOld.setStudentName(studentNew.getStudentName());
+//				studentOld.setStudentAddress(studentNew.getStudentAddress());
+//				studentOld.setStudentGender(studentNew.getStudentGender());
+//			}
+//		}
+//
+//		if (check == false) {
+//			return "Student id is not found";
+//		} else {
+//			return "Student Data is updated";
+//		}
+		
+		
+		Student st1=(Student) studentList.stream()
+ 				.filter(student->studentRoll.equals(student.getStudentRollNo()))
+ 				.findAny()
+ 				.orElse(null);
+		st1.setStudentName(studentNew.getStudentName());
+		st1.setStudentAddress(studentNew.getStudentAddress());
+		st1.setStudentGender(studentNew.getStudentGender());
+		return "Data updated";
+	}
+
+	
+}
